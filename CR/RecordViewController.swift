@@ -6,16 +6,19 @@
 //  Copyright © 2017 lotszkitkeith. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import MobileCoreServices
 import AVKit
 import AVFoundation
 
 class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
-    var savedFileName1 = "carRec1"
+    var savedFileName1 = "carRec1.mp4"
     let session = AVCaptureSession()
 //    let videoCaptureOutput = AVCaptureFileOutput()
     let videoCaptureOutput = AVCaptureMovieFileOutput()
+    let fm = FileManager()
+    var savePath = NSTemporaryDirectory()
     
     @IBOutlet var frameForCapture: UIView!
     @IBOutlet var recordButton: UIButton!
@@ -23,9 +26,14 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @IBAction func recordButtonFcn(_ sender: Any) {
         if videoCaptureOutput.isRecording {
             videoCaptureOutput.stopRecording()
+            
+            
             recordButton.titleLabel?.text = "Start Recording"
         } else {
-            videoCaptureOutput.startRecording(toOutputFileURL: NSURL(string: savedFileName1) as URL!, recordingDelegate: self)
+            savePath = savePath + savedFileName1
+            print(savePath)
+            videoCaptureOutput.startRecording(toOutputFileURL: NSURL(fileURLWithPath: savePath) as URL!, recordingDelegate: self)
+            print("pass")
             recordButton.titleLabel?.text = "Stop Recording"
         }
     }
@@ -98,15 +106,17 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
         print("Got a video")
-        
+        print(outputFileURL)
         if let pickedVideo:NSURL = (outputFileURL as? NSURL) {
-            // Save video to the main photo album
-            var newPickedVideo = pickedVideo.deletingLastPathComponent
-            newPickedVideo = newPickedVideo?.appendingPathComponent(savedFileName1)
+//            // Save video to the main photo album
+//            var newPickedVideo = pickedVideo.deletingLastPathComponent
+//            newPickedVideo = newPickedVideo?.appendingPathComponent(savedFileName1)
             
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((newPickedVideo?.absoluteString)!){
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((outputFileURL.path)){
 //                let selectorToCall = #selector(RecordViewController.videoWasSavedSuccessfully(_:didFinishSavingWithError:context:))
-                UISaveVideoAtPathToSavedPhotosAlbum(pickedVideo.relativePath!, self, nil, nil)
+//                UISaveVideoAtPathToSavedPhotosAlbum(pickedVideo.relativePath!, self, nil, nil)
+                UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
+                print("saved to photo album")
             }
             
 
@@ -120,6 +130,13 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //            videoData?.write(toFile: dataPath, atomically: false)
             
         }
+        
+//        let err: AnyObject
+//        do{
+//            err = try fm.removeItem(atPath: savePath) as AnyObject
+//        } catch {
+//            print("Fail to remove file")
+//        }
         
     }
 
