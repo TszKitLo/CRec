@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CR/RecordViewController.swift"
-            timestampString = "505343631.189961"
+            timestampString = "505360405.446514"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "sessionSetup()"
             landmarkType = "7">
          </BreakpointContent>
