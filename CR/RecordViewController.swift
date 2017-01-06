@@ -11,8 +11,9 @@ import UIKit
 import MobileCoreServices
 import AVKit
 import AVFoundation
+import MediaPlayer
 
-class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
+class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelegate, UIImagePickerControllerDelegate {
     var savedFileName1 = "carRec1.mp4"
     var savedFileName2 = "carRec2.mp4"
     let session = AVCaptureSession()
@@ -34,9 +35,19 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             print(savePath)
             videoCaptureOutput.startRecording(toOutputFileURL: NSURL(fileURLWithPath: savePath) as URL!, recordingDelegate: self)
             recordButton.setTitle("Stop", for: UIControlState.normal)
-            print("print stop recording")
+            
         }
     }
+
+    @IBAction func playbackButtonFcn(_ sender: Any) {
+        if videoCaptureOutput.isRecording {
+            print("isRecording, stop playback")
+        } else {
+            print("not recording, playback")
+            imagePickerSetup()
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +97,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
                 
                 
-                previewLayer?.frame = self.frameForCapture.bounds
+                previewLayer?.frame = self.frameForCapture.frame
 //                previewLayer?.bounds = self.frameForCapture.layer.bounds
 //                previewLayer?.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidT(bounds))
                 self.view.layer.addSublayer(previewLayer!)
@@ -96,6 +107,21 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             }
 
         }
+        
+    }
+    
+    func imagePickerSetup(){
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) == false {
+            return
+        }
+        
+        let mediaUI = UIImagePickerController()
+        mediaUI.sourceType = .savedPhotosAlbum
+        mediaUI.mediaTypes = [kUTTypeMovie as NSString as String]
+        mediaUI.allowsEditing = false
+        mediaUI.delegate = self
+        
+        present(mediaUI, animated: true, completion: nil)
         
     }
     
@@ -136,74 +162,28 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //        }
         
     }
+    
+    // MARK: UIImagePickerControllerDelegate
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
+        
+        dismiss(animated: true) {
+            
+            if mediaType == kUTTypeMovie {
+                let moviePlayer = MPMoviePlayerViewController(contentURL: (info[UIImagePickerControllerMediaURL] as! NSURL) as URL!)
+               
+                self.present(moviePlayer!, animated: true, completion: nil)
+            }
+        }
+    }
 
 
 }
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//    }
-//
-//    func captureSessionSetup(){
-//        let captureSession = AVCaptureSession()
-//        captureSession.sessionPreset = AVCaptureSessionPresetLow
-//        let devices = AVCaptureDevice.devices()
-//        // Search all devices in devices array
-//        if devices != nil {
-//            for device in devices! {
-//                if ((device as AnyObject).hasMediaType(AVMediaTypeVideo)) {
-//                    if ((device as AnyObject).position == AVCaptureDevicePosition.back) {
-//                        let captureDevice = device as? AVCaptureDevice
-//                        if captureDevice != nil {
-//                            beginSession(captureDevice: captureDevice!, captureSession: captureSession)
-//                        } else {
-//                            print("no back camera")
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//
-//    }
-//
-//    func beginSession(captureDevice: AVCaptureDevice, captureSession: AVCaptureSession) {
-//        var err : NSError? = nil
-//
-//        let deviceInput: AVCaptureInput?
-//        do {
-//            deviceInput = try AVCaptureDeviceInput(device: captureDevice)
-//        } catch {
-//            deviceInput = nil
-//        }
-//
-//        captureSession.addInput(deviceInput)
-//
-//        if err != nil {
-//            print("Error: \(err?.localizedDescription)")
-//        }
-//
-//        var videoCaptureOutput = AVCaptureFileOutput()
-//
-//        videoCaptureOutput.maxRecordedDuration = CMTime(seconds: 120, preferredTimescale: 1)
-//
-//
-//
-////        videoCaptureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey:kCVPixelFormatType_32BGRA]
-////        videoCaptureOutput.alwaysDiscardsLateVideoFrames = true
-////
-////        captureSession.addOutput(videoCaptureOutput)
-////
-////        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-////        self.view.layer.addSublayer(previewLayer)
-////        previewLayer?.frame = CGRectMake(0, 0, screenWidth, screenHeight)
-////        captureSession.startRunning()
-////
-////        var startVideoBtn = UIButton(frame: CGRectMake(0, screenHeight/2, screenWidth, screenHeight/2))
-////        startVideoBtn.addTarget(self, action: "startVideo", forControlEvents: UIControlEvents.TouchUpInside)
-////        self.view.addSubview(startVideoBtn)
-////
-////        var stopVideoBtn = UIButton(frame: CGRectMake(0, 0, screenWidth, screenHeight/2))
-////        stopVideoBtn.addTarget(self, action: "stopVideo", forControlEvents: UIControlEvents.TouchUpInside)
-////        self.view.addSubview(stopVideoBtn)
-//    }
+// MARK: UINavigationControllerDelegate
+
+extension RecordViewController: UINavigationControllerDelegate {
+}
+
+
