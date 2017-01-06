@@ -14,8 +14,8 @@ import AVFoundation
 
 class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
     var savedFileName1 = "carRec1.mp4"
+    var savedFileName2 = "carRec2.mp4"
     let session = AVCaptureSession()
-//    let videoCaptureOutput = AVCaptureFileOutput()
     let videoCaptureOutput = AVCaptureMovieFileOutput()
     let fm = FileManager()
     var savePath = NSTemporaryDirectory()
@@ -27,19 +27,17 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         if videoCaptureOutput.isRecording {
             videoCaptureOutput.stopRecording()
             
+            recordButton.setTitle("Record", for: UIControlState.normal)
             
-            recordButton.titleLabel?.text = "Start Recording"
         } else {
             savePath = savePath + savedFileName1
             print(savePath)
             videoCaptureOutput.startRecording(toOutputFileURL: NSURL(fileURLWithPath: savePath) as URL!, recordingDelegate: self)
-            print("pass")
-            recordButton.titleLabel?.text = "Stop Recording"
+            recordButton.setTitle("Stop", for: UIControlState.normal)
+            print("print stop recording")
         }
     }
-    
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -93,9 +91,8 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //                previewLayer?.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidT(bounds))
                 self.view.layer.addSublayer(previewLayer!)
                 
-                print("session before start")
                 session.startRunning()
-                print("session after startRunning()")
+                print("session startRunning()")
             }
 
         }
