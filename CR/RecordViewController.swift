@@ -14,29 +14,39 @@ import AVFoundation
 import MediaPlayer
 
 class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelegate, UIImagePickerControllerDelegate {
-    var savedFileName1 = "carRec1.mp4"
-    var savedFileName2 = "carRec2.mp4"
+    let savedFileName1 = "carRec1.mp4"
+    let savedFileName2 = "carRec2.mp4"
     let session = AVCaptureSession()
     let videoCaptureOutput = AVCaptureMovieFileOutput()
     let fm = FileManager()
-    var savePath = NSTemporaryDirectory()
+    var recordFlag = false
     
     @IBOutlet var frameForCapture: UIView!
     @IBOutlet var recordButton: UIButton!
     
     @IBAction func recordButtonFcn(_ sender: Any) {
-        if videoCaptureOutput.isRecording {
-            videoCaptureOutput.stopRecording()
-            
+        if recordFlag {   // Stop Recording
             recordButton.setTitle("Record", for: UIControlState.normal)
-            
-        } else {
-            savePath = savePath + savedFileName1
-            print(savePath)
-            videoCaptureOutput.startRecording(toOutputFileURL: NSURL(fileURLWithPath: savePath) as URL!, recordingDelegate: self)
+            recordFlag = false
+        } else {    // Start Recording
             recordButton.setTitle("Stop", for: UIControlState.normal)
-            
+            recordFlag = true
+            recordLoop()
         }
+        
+        
+        
+//        if videoCaptureOutput.isRecording {
+//            videoCaptureOutput.stopRecording()
+//            
+//            recordButton.setTitle("Record", for: UIControlState.normal)
+//            
+//        } else {
+//            startRecord()
+//
+//            recordButton.setTitle("Stop", for: UIControlState.normal)
+//            
+//        }
     }
 
     @IBAction func playbackButtonFcn(_ sender: Any) {
@@ -125,41 +135,125 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
     }
     
+    func startRecord(){
+        let savePath = pickSavingPath()
+        
+        print(savePath)
+        
+        if savePath != "" {
+            videoCaptureOutput.startRecording(toOutputFileURL: NSURL(fileURLWithPath: savePath) as URL!, recordingDelegate: self)
+        }
+    }
+    
+    func pickSavingPath() -> String{
+        let tempPath1 = NSTemporaryDirectory() + savedFileName1
+        let tempPath2 = NSTemporaryDirectory() + savedFileName2
+        
+        if !fm.fileExists(atPath: tempPath1) && !fm.fileExists(atPath: tempPath2){
+            print("carRec1.mp4 and carRec2.mp4 do not exist")
+            
+            return tempPath1
+            
+        } else if !fm.fileExists(atPath: tempPath1) && fm.fileExists(atPath: tempPath2){
+            print("carRec1.mp4 does not exist")
+            
+            return tempPath1
+            
+        } else if !fm.fileExists(atPath: tempPath2) && fm.fileExists(atPath: tempPath1){
+            print("carRec2.mp4 does not exist")
+            
+            return tempPath2
+        } else {
+            print("Both files exist")
+            
+            let leastUsedFilePath = findLeastUsedFile(tempPath1: tempPath1, tempPath2: tempPath2)
+            
+            if leastUsedFilePath != "" {
+                deleteFile(path: leastUsedFilePath)
+            }
+
+            return leastUsedFilePath
+        }
+ 
+    }
+    
+    func deleteFile(path: String){
+        
+        do{
+            try fm.removeItem(atPath: path)
+        } catch let err as NSError{
+            print("Fail to remove file")
+            print(err)
+        }
+    }
+    
+    func findLeastUsedFile(tempPath1: String, tempPath2: String) -> String{
+        
+        do{
+            let attributesOfPath1 = try fm.attributesOfItem(atPath: tempPath1) as NSDictionary
+            
+            do{
+                let attributesOfPath2 = try fm.attributesOfItem(atPath: tempPath2) as NSDictionary
+                
+                let date1 = attributesOfPath1["NSFileCreationDate"] as! NSDate
+                let date2 = attributesOfPath2["NSFileCreationDate"] as! NSDate
+                
+                print("date1")
+                print("date2")
+                
+                
+                if date1.compare(date2 as Date) == .orderedAscending{
+                    print("date1 is earlier")
+                    return tempPath1
+                } else {
+                    print("date2 is earlier")
+                    return tempPath2
+                }
+                
+            } catch let error as NSError{
+                print("Fail to read carRec2")
+                print(error)
+            }
+            
+        } catch let error as NSError{
+            print("Fail to read carRec1")
+            print(error)
+        }
+        
+        
+        
+        
+
+        
+        
+        return ""
+    }
+    
+    func recordLoop() {
+        while recordFlag {
+            startRecord()
+        }
+        
+        videoCaptureOutput.stopRecording()
+        
+    }
+    
     // MARK: AVCaptureFileOutputRecordingDelegate
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
         print("Got a video")
         print(outputFileURL)
         if let pickedVideo:NSURL = (outputFileURL as? NSURL) {
-//            // Save video to the main photo album
-//            var newPickedVideo = pickedVideo.deletingLastPathComponent
-//            newPickedVideo = newPickedVideo?.appendingPathComponent(savedFileName1)
             
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((outputFileURL.path)){
-//                let selectorToCall = #selector(RecordViewController.videoWasSavedSuccessfully(_:didFinishSavingWithError:context:))
-//                UISaveVideoAtPathToSavedPhotosAlbum(pickedVideo.relativePath!, self, nil, nil)
+
                 UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
                 print("saved to photo album")
             }
             
-
-            
-//            // Save the video to the app directory so we can play it later
-//            let videoData = NSData(contentsOf: pickedVideo as URL)
-////            let paths = NSSearchPathForDirectoriesInDomains(
-////                NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-//            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-//            let dataPath = path + savedFileName1
-//            videoData?.write(toFile: dataPath, atomically: false)
             
         }
         
-//        let err: AnyObject
-//        do{
-//            err = try fm.removeItem(atPath: savePath) as AnyObject
-//        } catch {
-//            print("Fail to remove file")
-//        }
         
     }
     
