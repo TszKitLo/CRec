@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CR/RecordViewController.swift"
-            timestampString = "505362469.689151"
+            timestampString = "505589762.238888"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "sessionSetup()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CR/RecordViewController.swift"
-            timestampString = "505545742.642533"
+            timestampString = "505649694.982958"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "capture(_:didFinishRecordingToOutputFileAt:fromConnections:error:)"
             landmarkType = "7">
          </BreakpointContent>

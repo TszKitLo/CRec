@@ -108,8 +108,6 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 
                 
                 previewLayer?.frame = self.frameForCapture.frame
-//                previewLayer?.bounds = self.frameForCapture.layer.bounds
-//                previewLayer?.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidT(bounds))
                 self.view.layer.addSublayer(previewLayer!)
                 
                 session.startRunning()
@@ -137,7 +135,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     func startRecord(){
         let savePath = pickSavingPath()
-        
+
         print(savePath)
         
         if savePath != "" {
@@ -146,8 +144,18 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func pickSavingPath() -> String{
-        let tempPath1 = NSTemporaryDirectory() + savedFileName1
-        let tempPath2 = NSTemporaryDirectory() + savedFileName2
+//        let tempPath1 = NSTemporaryDirectory() + savedFileName1
+//        let tempPath2 = NSTemporaryDirectory() + savedFileName2
+        
+        let tempPath1 = fm.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)[0].absoluteString + savedFileName1
+        let tempPath2 = fm.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)[0].absoluteString + savedFileName2
+        
+//        let tempUrl1 = fm.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)
+//        print(tempUrl1)
+//        let x = (tempUrl1 as NSURL).isFileReferenceURL()
+//        print(tempUrl1.isFileReferenceURL())
+        print(tempPath1)
+        print(tempPath2)
         
         if !fm.fileExists(atPath: tempPath1) && !fm.fileExists(atPath: tempPath2){
             print("carRec1.mp4 and carRec2.mp4 do not exist")
@@ -230,9 +238,13 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func recordLoop() {
-        while recordFlag {
-            startRecord()
-        }
+//        while recordFlag {
+//            if !videoCaptureOutput.isRecording {
+//                startRecord()
+//            }
+//            
+//        }
+        startRecord()
         
         videoCaptureOutput.stopRecording()
         
@@ -242,15 +254,41 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
         print("Got a video")
-        print(outputFileURL)
+        print("outputFileURL \(outputFileURL)")
+        print("outFileURL.path \(outputFileURL.path)")
+        print("outputFileURL.relativePath \(outputFileURL.relativePath)")
+        
         if let pickedVideo:NSURL = (outputFileURL as? NSURL) {
+//            let videoData = NSData(contentsOf: pickedVideo as URL)
+//            let paths = NSSearchPathForDirectoriesInDomains(
+//                FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+//            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+//            let dataPath = path + savedFileName1
             
-            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((outputFileURL.path)){
+//            if fm.fileExists(atPath: pickedVideo.path!) {
+//                print("file exist")
+//            } else {
+//                print("file does not exist")
+//            }
+            
+//            let dataPath = pickedVideo.path
+//            videoData?.write(toFile: dataPath!, atomically: false)
+            
+//            if fm.fileExists(atPath: pickedVideo.relativePath!) {
+//                print("file exist")
+//            } else {
+//                print("file does not exist")
+//            }
+            
+//            let finalPath = NSURL.init(fileURLWithPath: outputFileURL.path)
+            
+
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(outputFileURL.path){
 
                 UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, self, nil, nil)
                 print("saved to photo album")
             }
-            
+        
             
         }
         
