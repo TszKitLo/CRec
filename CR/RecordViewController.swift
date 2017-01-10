@@ -183,11 +183,19 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         print("start video player")
         print("file will be played = \(url)")
         
+        //let player = AVPlayer(url: url as URL)
+        //let playerLayer = AVPlayerLayer(player: player)
+        //playerLayer.frame = self.view.bounds
+        //self.view.layer.addSublayer(playerLayer)
+        //player.play()
+        
+        
         let player = AVPlayer(url: url as URL)
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = self.view.bounds
-        self.view.layer.addSublayer(playerLayer)
-        player.play()
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        self.present(playerViewController, animated: true) {
+            playerViewController.player!.play()
+        }
     }
     
     func startRecord(){
