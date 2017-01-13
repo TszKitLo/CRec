@@ -21,21 +21,41 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     let session = AVCaptureSession()
     let videoCaptureOutput = AVCaptureMovieFileOutput()
     let fm = FileManager.default
-    var recordFlag = false
+//    var recordFlag = false
+//    var flag = true
+    var click = true
     
     @IBOutlet var frameForCapture: UIView!
     @IBOutlet var recordButton: UIButton!
     
     @IBAction func recordButtonFcn(_ sender: Any) {
-        if recordFlag {   // Stop Recording
-            recordButton.setTitle("Record", for: UIControlState.normal)
-            recordFlag = false
-            videoCaptureOutput.stopRecording()
-        } else {    // Start Recording
+//        if recordFlag {   // Stop Recording
+//            recordButton.setTitle("Record", for: UIControlState.normal)
+//            recordFlag = false
+////            videoCaptureOutput.stopRecording()
+//        } else {    // Start Recording
+//            recordButton.setTitle("Stop", for: UIControlState.normal)
+//            recordFlag = true
+//            recordCycle()
+//        }
+        print("1")
+        
+        if click {   // OK Recording
+            print("2")
             recordButton.setTitle("Stop", for: UIControlState.normal)
-            recordFlag = true
-            recordLoop()
+            click = false
+            print("click = \(click)")
+            recordCycle()
+
+        } else {    // NOT OK Recording
+            print("3")
+            recordButton.setTitle("Record", for: UIControlState.normal)
+            click = true
+            print("click = \(click)")
+            videoCaptureOutput.stopRecording()
         }
+        
+        
         
     }
     
@@ -199,10 +219,16 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func startRecord(){
+        print("4")
+//        flag = false
+        
         let savePath = pickSavingPath()
         
         print("savePath = \(savePath)")
-        
+        var err:NSErrorPointer
+        print("isFileURL? \(savePath.isFileURL)")
+        print("isReachable? \(savePath.checkResourceIsReachableAndReturnError(err))")
+        print("exist? \(fm.fileExists(atPath: savePath.path!))")
         
         videoCaptureOutput.startRecording(toOutputFileURL: savePath as URL!, recordingDelegate: self)
         
@@ -216,7 +242,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func pickSavingPath() -> NSURL{
-        
+        print("5")
         let paths = createTempPaths()
         let tempPath1 = paths[0]
         let tempPath2 = paths[1]
@@ -293,6 +319,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func checkFilesExist(tempPath1: NSURL, tempPath2: NSURL) -> Int {
+        print("6")
         if !fm.fileExists(atPath: tempPath1.relativePath!) && !fm.fileExists(atPath: tempPath2.relativePath!){
             print("carRec1.mp4 and carRec2.mp4 do not exist")
             
@@ -315,6 +342,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func deleteFile(url: NSURL){
+        print("7")
 //        // Delete video from photo album
 //        let urls: [URL] = [url as URL]
 //        print("urls = \(urls)")
@@ -351,7 +379,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     func findLeastUsedFile(tempPath1: NSURL, tempPath2: NSURL) -> NSURL?{
-        
+        print("8")
         do{
             let attributesOfPath1 = try fm.attributesOfItem(atPath: tempPath1.path!) as NSDictionary
             
@@ -391,26 +419,38 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
     }
     
-    func recordLoop() {
-        //        while recordFlag {
-        //            print("outside if")
-        //            if !videoCaptureOutput.isRecording {
-        //                print("in if")
-        //                startRecord()
-        //            }
-        //
-        //        }
+    func recordCycle() {
+        print("9")
+//                while recordFlag {
+//                    print("outside if")
+//                    if !videoCaptureOutput.isRecording {
+//                        print("in if")
+//                        startRecord()
+//                    }
+//        
+//                }
+////        startRecord()
+//        
+//                videoCaptureOutput.stopRecording()
+        
+        
+//        print("before startRecord")
+//        if flag {
+//            startRecord()
+//            
+//        }
+//        print("after startRecord")
+//        if !click {
+//            print("restart startRecord")
+//            recordCycle()
+//        }
+        
         startRecord()
-        
-        //        videoCaptureOutput.stopRecording()
-        
-        
-        
     }
     
     // MARK: AVCaptureFileOutputRecordingDelegate
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
-        
+        print("10")
         print("Got a video")
         
 //        if let pickedVideo:NSURL = (outputFileURL as? NSURL) {
@@ -425,12 +465,16 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //            
 //        }
         
+//        flag = true
         
-        
+        if !click {
+            startRecord()
+        }
         
     }
     
     func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
+        
         print("Recording did start")
     }
     
