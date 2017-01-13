@@ -13,6 +13,7 @@ import AVKit
 import AVFoundation
 import MediaPlayer
 import Photos
+import GoogleMobileAds
 
 class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
     let savedFileName1 = "carRec1"
@@ -24,6 +25,9 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //    var recordFlag = false
 //    var flag = true
     var click = true
+    
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     
     @IBOutlet var frameForCapture: UIView!
     @IBOutlet var recordButton: UIButton!
@@ -71,7 +75,7 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        bannerViewSetup()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -446,6 +450,13 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 //        }
         
         startRecord()
+    }
+    
+    func bannerViewSetup() {
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+    
     }
     
     // MARK: AVCaptureFileOutputRecordingDelegate

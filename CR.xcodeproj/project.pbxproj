@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		832C35C748B759479C0BABFF /* Pods_CR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 799569352258E0FE47D56619 /* Pods_CR.framework */; };
 		C3B929B11E1ADE740069BC3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B929B01E1ADE740069BC3C /* AppDelegate.swift */; };
 		C3B929B31E1ADE740069BC3C /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B929B21E1ADE740069BC3C /* RecordViewController.swift */; };
 		C3B929B51E1ADE740069BC3C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B929B41E1ADE740069BC3C /* SettingViewController.swift */; };
 		C3B929B81E1ADE740069BC3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3B929B61E1ADE740069BC3C /* Main.storyboard */; };
 		C3B929BA1E1ADE740069BC3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3B929B91E1ADE740069BC3C /* Assets.xcassets */; };
 		C3B929BD1E1ADE740069BC3C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3B929BB1E1ADE740069BC3C /* LaunchScreen.storyboard */; };
+		C3DA8AE71E28DB3F0057C57D /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3DA8AE61E28DB3F0057C57D /* GoogleMobileAds.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		050A1AF99A3FC942C9A4551A /* Pods-CR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CR/Pods-CR.debug.xcconfig"; sourceTree = "<group>"; };
+		34A35B4B1EA804D947169B33 /* Pods-CR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CR.release.xcconfig"; path = "Pods/Target Support Files/Pods-CR/Pods-CR.release.xcconfig"; sourceTree = "<group>"; };
+		799569352258E0FE47D56619 /* Pods_CR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3B929AD1E1ADE740069BC3C /* CR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3B929B01E1ADE740069BC3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3B929B21E1ADE740069BC3C /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RecordViewController.swift; path = CR/RecordViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +29,7 @@
 		C3B929B91E1ADE740069BC3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3B929BC1E1ADE740069BC3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3B929BE1E1ADE740069BC3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3DA8AE61E28DB3F0057C57D /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +37,39 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3DA8AE71E28DB3F0057C57D /* GoogleMobileAds.framework in Frameworks */,
+				832C35C748B759479C0BABFF /* Pods_CR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		419C52FB4D2BABF7DCC7019E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				050A1AF99A3FC942C9A4551A /* Pods-CR.debug.xcconfig */,
+				34A35B4B1EA804D947169B33 /* Pods-CR.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B5E9E1C6B05CA6E773E2FCD3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				799569352258E0FE47D56619 /* Pods_CR.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C3B929A41E1ADE730069BC3C = {
 			isa = PBXGroup;
 			children = (
+				C3DA8AE61E28DB3F0057C57D /* GoogleMobileAds.framework */,
 				C3B929AF1E1ADE740069BC3C /* CR */,
 				C3B929AE1E1ADE740069BC3C /* Products */,
+				419C52FB4D2BABF7DCC7019E /* Pods */,
+				B5E9E1C6B05CA6E773E2FCD3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,9 +111,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3B929C11E1ADE740069BC3C /* Build configuration list for PBXNativeTarget "CR" */;
 			buildPhases = (
+				16F8026383BB4888EAA6C022 /* [CP] Check Pods Manifest.lock */,
 				C3B929A91E1ADE730069BC3C /* Sources */,
 				C3B929AA1E1ADE730069BC3C /* Frameworks */,
 				C3B929AB1E1ADE730069BC3C /* Resources */,
+				7D44C56691B558BCB5BA0242 /* [CP] Embed Pods Frameworks */,
+				4B6DF8EF4B454C38B96D4C59 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -143,6 +174,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		16F8026383BB4888EAA6C022 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4B6DF8EF4B454C38B96D4C59 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CR/Pods-CR-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D44C56691B558BCB5BA0242 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CR/Pods-CR-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C3B929A91E1ADE730069BC3C /* Sources */ = {
@@ -272,9 +351,14 @@
 		};
 		C3B929C21E1ADE740069BC3C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 050A1AF99A3FC942C9A4551A /* Pods-CR.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = VRUC9G6FE4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks",
+				);
 				INFOPLIST_FILE = CR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lotszkitkeith.CR;
@@ -285,9 +369,14 @@
 		};
 		C3B929C31E1ADE740069BC3C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34A35B4B1EA804D947169B33 /* Pods-CR.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = VRUC9G6FE4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks",
+				);
 				INFOPLIST_FILE = CR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lotszkitkeith.CR;
