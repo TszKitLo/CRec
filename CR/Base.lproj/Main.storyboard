@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUi-3z-7kB">
-                                <rect key="frame" x="0.0" y="572" width="375" height="46"/>
+                                <rect key="frame" x="40" y="562" width="295" height="46"/>
                                 <color key="backgroundColor" red="1" green="0.16210245749999999" blue="0.2093790847" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <state key="normal" title="Record">
@@ -32,9 +32,6 @@
                                     <action selector="recordButtonFcn:" destination="9pv-A4-QxB" eventType="touchUpInside" id="BR6-Ao-BvL"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l7c-SO-DhM">
-                                <rect key="frame" x="0.0" y="114" width="375" height="458"/>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cRb-Ig-eJe" customClass="GADBannerView">
                                 <rect key="frame" x="27" y="64" width="320" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -43,18 +40,21 @@
                                     <constraint firstAttribute="height" constant="50" id="yDZ-O3-y8F"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l7c-SO-DhM">
+                                <rect key="frame" x="0.0" y="114" width="375" height="504"/>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="GUi-3z-7kB" secondAttribute="trailing" id="1k4-Cf-dBL"/>
-                            <constraint firstItem="GUi-3z-7kB" firstAttribute="top" secondItem="l7c-SO-DhM" secondAttribute="bottom" id="3Df-aq-7Fa"/>
+                            <constraint firstAttribute="trailing" secondItem="GUi-3z-7kB" secondAttribute="trailing" constant="40" id="41s-8N-18X"/>
                             <constraint firstItem="cRb-Ig-eJe" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="5Ot-CH-6Jc"/>
                             <constraint firstAttribute="trailing" secondItem="l7c-SO-DhM" secondAttribute="trailing" id="6dn-VV-J8Q"/>
-                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="GUi-3z-7kB" secondAttribute="bottom" id="Uu9-Qg-OF8"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="GUi-3z-7kB" secondAttribute="bottom" constant="10" id="UC7-Yf-Cfv"/>
                             <constraint firstItem="cRb-Ig-eJe" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="W4E-h9-60V"/>
                             <constraint firstItem="l7c-SO-DhM" firstAttribute="top" secondItem="cRb-Ig-eJe" secondAttribute="bottom" id="fnx-UL-1IW"/>
+                            <constraint firstItem="GUi-3z-7kB" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" constant="40" id="hb5-yS-udY"/>
                             <constraint firstItem="l7c-SO-DhM" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="iOh-Ho-6eK"/>
-                            <constraint firstItem="GUi-3z-7kB" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="sIb-oi-yBR"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="l7c-SO-DhM" secondAttribute="bottom" id="mB2-Ou-gvO"/>
+                            <constraint firstItem="GUi-3z-7kB" firstAttribute="centerX" secondItem="tsR-hK-woN" secondAttribute="centerX" id="sDz-Vw-T3D"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="LFC-BI-PVM">

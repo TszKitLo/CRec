@@ -76,37 +76,57 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         bannerViewSetup()
+        recordButton.layer.cornerRadius = 10
+        recordButton.alpha = 0.4
+        self.view.bringSubview(toFront: recordButton)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         sessionSetup()
-        
+        recordButtonSetup()
     }
     
     func sessionSetup(){
         
         session.sessionPreset = AVCaptureSessionPresetMedium
         
-        let inputDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        let inputVideoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        let inputAudioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
         
-        let deviceInput: AVCaptureInput?
+        let deviceVideoInput: AVCaptureInput?
+        let deviceAudioInput: AVCaptureInput?
         
-        // Find input device
+        // Find video input device
         do {
-            deviceInput = try AVCaptureDeviceInput(device: inputDevice)
+            deviceVideoInput = try AVCaptureDeviceInput(device: inputVideoDevice)
             
             
         } catch {
-            deviceInput = nil
+            deviceVideoInput = nil
             print("Fail to initialize AVCaptureDeviceInput")
             
         }
         
-        if deviceInput != nil {
+        // Find audio input device
+        do {
+            deviceAudioInput = try AVCaptureDeviceInput(device: inputAudioDevice)
+            
+            
+        } catch {
+            deviceAudioInput = nil
+            print("Fail to initialize AVCaptureDeviceInput")
+            
+        }
+        
+        if deviceVideoInput != nil && deviceAudioInput != nil{
             // Set input
-            if session.canAddInput(deviceInput) {
-                session.addInput(deviceInput)
+            if session.canAddInput(deviceVideoInput) {
+                session.addInput(deviceVideoInput)
+            }
+            
+            if session.canAddInput(deviceAudioInput) {
+                session.addInput(deviceAudioInput)
             }
             
             // Set output
@@ -457,6 +477,12 @@ class RecordViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
     
+    }
+    
+    func recordButtonSetup() {
+        recordButton.layer.cornerRadius = 10
+        recordButton.alpha = 0.65
+        self.view.bringSubview(toFront: recordButton)
     }
     
     // MARK: AVCaptureFileOutputRecordingDelegate
